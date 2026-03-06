@@ -1,1 +1,18 @@
 <h1> Hello Ruby <h1>
+<div class="button-container">
+    <%= link_to "新しい投稿", new_post_path, class: "link-button" %>
+</div>
+
+<ul>
+    <%# #postsでアクセスしたときの処理データベースから全ての投稿を取得して@postsに格納       %>
+    <%# 取得した投稿を一つずつ表示 %>
+    <% @posts.each do |post| %>  
+        <li>
+            <h2><%= post.title %></h2>
+            <p><%= post.content %></p>
+            <span>
+                <small><%= post.created_at %></small>
+            </span>
+        </li>
+    <% end %>
+</ul>
