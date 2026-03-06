@@ -1,4 +1,8 @@
 class PostsController < ApplicationController
+
+    #edit、update、destroyアクションが呼び出される前にset_postメソッドを実行して、対象の投稿を取得するためのフィルタ
+    before_action :set_post, only: [:edit, :update, :destroy] 
+
     def index
         #postsでアクセスしたときの処理データベースから全ての投稿を取得して@postsに格納
         @posts = Post.all
@@ -22,12 +26,10 @@ class PostsController < ApplicationController
 
     def edit
         #既存の投稿を編集するためのフォームを表示するためのアクション
-        @post = Post.find(params[:id]) #id部分から投稿を見つけて
     end
 
     def update
         #フォームから送信されたデータを処理して既存の投稿を更新するためのアクション
-        @post = Post.find(params[:id])
         if @post.update(post_params)
             #更新に成功した場合は投稿一覧ページにリダイレクトし、成功メッセージを表示
             redirect_to posts_path
@@ -38,7 +40,6 @@ class PostsController < ApplicationController
 
     def destroy
         #既存の投稿を削除するためのアクション
-        @post = Post.find(params[:id])
         @post.destroy  #投稿を削除
         redirect_to posts_path #投稿一覧ページにリダイレクト
     end
@@ -48,6 +49,10 @@ class PostsController < ApplicationController
     def post_params
         #ストロングパラメータを使用して、許可された属性のみを受け取るためのメソッド
         params.require(:post).permit(:title, :content)
+    end
+
+    def set_post
+        @post = Post.find(params[:id])
     end
     
 end
