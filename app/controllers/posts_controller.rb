@@ -20,6 +20,29 @@ class PostsController < ApplicationController
         end
     end
 
+    def edit
+        #既存の投稿を編集するためのフォームを表示するためのアクション
+        @post = Post.find(params[:id]) #id部分から投稿を見つけて
+    end
+
+    def update
+        #フォームから送信されたデータを処理して既存の投稿を更新するためのアクション
+        @post = Post.find(params[:id])
+        if @post.update(post_params)
+            #更新に成功した場合は投稿一覧ページにリダイレクトし、成功メッセージを表示
+            redirect_to posts_path
+        else
+            render :edit
+        end
+    end
+
+    def destroy
+        #既存の投稿を削除するためのアクション
+        @post = Post.find(params[:id])
+        @post.destroy  #投稿を削除
+        redirect_to posts_path #投稿一覧ページにリダイレクト
+    end
+
     private 
     
     def post_params
