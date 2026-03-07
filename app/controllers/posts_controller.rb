@@ -1,23 +1,22 @@
 class PostsController < ApplicationController
-
-    #edit、update、destroyアクションが呼び出される前にset_postメソッドを実行して、対象の投稿を取得するためのフィルタ
-    before_action :set_post, only: [:edit, :update, :destroy] 
+    # edit、update、destroyアクションが呼び出される前にset_postメソッドを実行して、対象の投稿を取得するためのフィルタ
+    before_action :set_post, only: [ :edit, :update, :destroy ]
 
     def index
-        #postsでアクセスしたときの処理データベースから全ての投稿を取得して@postsに格納
+        # postsでアクセスしたときの処理データベースから全ての投稿を取得して@postsに格納
         @posts = Post.all
     end
 
     def new
-        #新しい投稿を作成するためのフォームを表示するためのアクション
+        # 新しい投稿を作成するためのフォームを表示するためのアクション
         @post = Post.new
     end
 
     def create
-        #フォームから送信されたデータを処理して新しい投稿を作成するためのアクション
+        # フォームから送信されたデータを処理して新しい投稿を作成するためのアクション
         @post = Post.new(post_params)
         if @post.save
-            #保存に成功した場合は投稿一覧ページにリダイレクトし、成功メッセージを表示
+            # 保存に成功した場合は投稿一覧ページにリダイレクトし、成功メッセージを表示
             redirect_to posts_path
         else
             render :new
@@ -25,13 +24,13 @@ class PostsController < ApplicationController
     end
 
     def edit
-        #既存の投稿を編集するためのフォームを表示するためのアクション
+      # 既存の投稿を編集するためのフォームを表示するためのアクション
     end
 
     def update
-        #フォームから送信されたデータを処理して既存の投稿を更新するためのアクション
+        # フォームから送信されたデータを処理して既存の投稿を更新するためのアクション
         if @post.update(post_params)
-            #更新に成功した場合は投稿一覧ページにリダイレクトし、成功メッセージを表示
+            # 更新に成功した場合は投稿一覧ページにリダイレクトし、成功メッセージを表示
             redirect_to posts_path
         else
             render :edit
@@ -39,20 +38,19 @@ class PostsController < ApplicationController
     end
 
     def destroy
-        #既存の投稿を削除するためのアクション
-        @post.destroy  #投稿を削除
-        redirect_to posts_path #投稿一覧ページにリダイレクト
+        # 既存の投稿を削除するためのアクション
+        @post.destroy  # 投稿を削除
+        redirect_to posts_path # 投稿一覧ページにリダイレクト
     end
 
-    private 
-    
+    private
+
     def post_params
-        #ストロングパラメータを使用して、許可された属性のみを受け取るためのメソッド
+        # ストロングパラメータを使用して、許可された属性のみを受け取るためのメソッド
         params.require(:post).permit(:title, :content)
     end
 
     def set_post
         @post = Post.find(params[:id])
     end
-    
 end

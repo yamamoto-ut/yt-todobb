@@ -12,6 +12,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   # localhost:3000
-  resources :posts, only: [:index, :new, :create, :edit, :update, :destroy] #postsコントローラーのindexアクションに対応するルーティングを定義
+  resources :posts, only: [ :index, :new, :create, :edit, :update, :destroy ] # postsコントローラーのindexアクションに対応するルーティングを定義
   # postsでアクセス
 end
